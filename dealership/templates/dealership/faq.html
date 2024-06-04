@@ -1,0 +1,71 @@
+<!-- faq.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto py-8 px-4">
+    <h1 class="text-3xl font-bold mb-6 text-center">Frequently Asked Questions</h1>
+    
+    <div class="mb-8 border-b">
+        <h2 class="text-xl font-bold mb-3 question cursor-pointer flex items-center justify-between p-3 bg-gray-100 rounded">
+            <span>How does SwiftDrive dealership work?</span>
+            <i class="fas fa-chevron-down transition-transform transform"></i>
+        </h2>
+        <p class="text-gray-800 answer hidden px-3">SwiftDrive Car Dealership offers a wide selection of new and used cars. You can browse our inventory online, schedule test drives, and even reserve a car. Our team is here to help you find the perfect vehicle to meet your needs.</p>
+    </div>
+    
+    <div class="mb-8 border-b">
+        <h2 class="text-xl font-bold mb-3 question cursor-pointer flex items-center justify-between p-3 bg-gray-100 rounded">
+            <span>How do I become a member?</span>
+            <i class="fas fa-chevron-down transition-transform transform"></i>
+        </h2>
+        <p class="text-gray-800 answer hidden px-3">Becoming a member is easy. Simply create an account on our website by providing some basic information. Once registered, you'll have access to exclusive member benefits, including special offers and early access to new arrivals.</p>
+    </div>
+    <div class="mb-8 border-b">
+        <h2 class="text-xl font-bold mb-3 question cursor-pointer flex items-center justify-between p-3 bg-gray-100 rounded">
+            <span>How do you know what my car is worth?</span>
+            <i class="fas fa-chevron-down transition-transform transform"></i>
+        </h2>
+        <p class="text-gray-800 answer hidden px-3">We determine the value of your car using a combination of industry-standard appraisal tools and a thorough inspection by our experienced staff. Factors such as make, model, year, mileage, and condition all play a role in determining the value of your vehicle.</p>
+    </div>
+    <div class="mb-8 border-b">
+        <h2 class="text-xl font-bold mb-3 question cursor-pointer flex items-center justify-between p-3 bg-gray-100 rounded">
+            <span>I have a problem logging in to My Pages. How do I fix this?</span>
+            <i class="fas fa-chevron-down transition-transform transform"></i>
+        </h2>
+        <p class="text-gray-800 answer hidden px-3">If you're having trouble logging in, first check to make sure you're using the correct email and password. If you've forgotten your password, use the 'Forgot Password' link to reset it. If you continue to experience issues, please contact our support team for assistance.</p>
+    </div>
+    <div class="mb-8 border-b">
+        <h2 class="text-xl font-bold mb-3 question cursor-pointer flex items-center justify-between p-3 bg-gray-100 rounded">
+            <span>How can I cancel my membership?</span>
+            <i class="fas fa-chevron-down transition-transform transform"></i>
+        </h2>
+        <p class="text-gray-800 answer hidden px-3">To cancel your membership, please log in to your account and go to the 'Account Settings' section. From there, you can follow the instructions to cancel your membership. If you need further assistance, our support team is here to help.</p>
+    </div>
+    
+    <!-- Add more questions and answers as needed -->
+</div>
+
+<script>
+    // Add click event listener to each question
+    const questions = document.querySelectorAll('.question');
+    questions.forEach(question => {
+        question.addEventListener('click', () => {
+            // Toggle the 'hidden' class to visible on the next sibling element (the answer)
+            const answer = question.nextElementSibling;
+            answer.classList.toggle('hidden');
+
+            // Toggle the chevron icon direction
+            const icon = question.querySelector('.fa-chevron-down');
+            icon.classList.toggle('rotate-180');
+        });
+    });
+</script>
+
+<style>
+    .rotate-180 {
+        transform: rotate(180deg);
+    }
+</style>
+
+{% endblock %}

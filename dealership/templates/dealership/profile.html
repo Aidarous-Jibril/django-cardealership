@@ -1,0 +1,36 @@
+<!-- dealership/templates/dealership/profile.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto">
+    <h1 class="text-2xl font-bold mb-8 text-center">{{ profile.user.username }}'s Profile</h1>
+    <div class="max-w-lg mx-auto bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="p-4">
+            <p class="text-lg text-gray-800">Bio: {{ profile.bio }}</p>
+            <p class="text-lg text-gray-800">Location: {{ profile.location }}</p>
+            <p class="text-lg text-gray-800">Birth Date: {{ profile.birth_date }}</p>
+        </div>
+        <div class="border-t border-gray-200 p-4">
+            <h2 class="text-xl font-semibold mb-2">Reservations</h2>
+            {% if reservations %}
+            <ul>
+                {% for reservation in reservations %}
+                <li class="flex items-center justify-between py-2 border-b border-gray-200">
+                    <div>
+                        <p class="text-lg text-gray-800">{{ reservation.car.make }} {{ reservation.car.model }}</p>
+                        <p class="text-sm text-gray-600">{{ reservation.reservation_date|date:"F d, Y, h:i A" }}</p>
+                    </div>
+                    <form action="{% url 'dealership:cancel_reservation' reservation.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded">Cancel Reservation</button>
+                    </form>                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No reservations found.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

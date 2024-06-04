@@ -1,0 +1,49 @@
+
+<!-- dealership/templates/dealership/car_filter.html -->
+
+<form action="{% url 'dealership:car_search' %}" method="GET" class="flex space-x-2">
+    <select name="brand" class="p-2 rounded">
+        <option value="">Select Brand</option>
+        {% for brand in brands %}
+            <option value="{{ brand }}">{{ brand }}</option>
+        {% endfor %}
+    </select>
+    <select name="model" class="p-2 rounded">
+        <option value="">Select Model</option>
+        {% for model in models %}
+            <option value="{{ model }}">{{ model }}</option>
+        {% endfor %}
+    </select>
+    <select name="fuel" class="p-2 rounded">
+        <option value="">Select Fuel Type</option>
+        {% for fuel_type in fuel_types %}
+            <option value="{{ fuel_type }}">{{ fuel_type }}</option>
+        {% endfor %}
+    </select>
+    <select name="gearbox" class="p-2 rounded">
+        <option value="">Select Gearbox</option>
+        {% for gearbox_type in gearbox_types %}
+            <option value="{{ gearbox_type }}">{{ gearbox_type }}</option>
+        {% endfor %}
+    </select>
+    <select name="model_year" class="p-2 rounded">
+        <option value="">Select Model Year</option>
+        {% for year in model_years %}
+            <option value="{{ year }}">{{ year }}</option>
+        {% endfor %}
+    </select>
+    <input type="number" name="max_price" placeholder="Max Price" class="p-2 rounded">
+    <button type="submit" class="p-2 bg-blue-500 text-white rounded">Apply Filters</button>
+</form>
+
+
+<!-- Display filtered results -->
+{% if filtered_cars %}
+    <ul>
+    {% for car in filtered_cars %}
+        <li>{{ car }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No cars match the selected criteria.</p>
+{% endif %}

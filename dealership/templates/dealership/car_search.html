@@ -1,0 +1,23 @@
+<!-- dealership/templates/dealership/car_search.html
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto py-8">
+    <form method="GET" action="{% url 'dealership:car_search' %}">
+        {{ form.as_p }}
+        <button type="submit">Search</button>
+    </form>
+    <h1 class="text-2xl font-bold">Search Results</h1>
+    {% if search_results %}
+        <p>Showing results for: {{ form.search_query.value }}</p>
+        <ul>
+            {% for car in search_results %}
+                <li>{{ car.make }} - {{ car.model }} - {{ car.year }}</li> 
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No results found.</p>
+    {% endif %}
+</div>
+{% endblock %} -->

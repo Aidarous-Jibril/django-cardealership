@@ -1,0 +1,125 @@
+<!-- templates/car_detail.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mx-auto py-8">
+    <div class="bg-white shadow-md rounded p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Car Image Carousel -->
+            <div class="relative rounded-md">
+                <div class="carousel-container flex justify-between">
+                    {% if car.image %}
+                    <div class="carousel-item">
+                        <img src="{{ car.image.url }}" alt="{{ car.make }} {{ car.model }}" class="w-full h-auto rounded-md object-cover object-center">
+                    </div>
+                    {% endif %}
+                    {% if car.image1 %}
+                    <div class="carousel-item">
+                        <img src="{{ car.image1.url }}" alt="{{ car.make }} {{ car.model }}" class="w-full h-auto rounded-md object-cover object-center">
+                    </div>
+                    {% endif %}
+                    {% if car.image2 %}
+                    <div class="carousel-item">
+                        <img src="{{ car.image2.url }}" alt="{{ car.make }} {{ car.model }}" class="w-full h-auto rounded-md object-cover object-center">
+                    </div>
+                    {% endif %}
+                    {% if car.image3 %}
+                    <div class="carousel-item">
+                        <img src="{{ car.image3.url }}" alt="{{ car.make }} {{ car.model }}" class="w-full h-auto rounded-md object-cover object-center">
+                    </div>
+                    {% endif %}
+                </div>
+                <!-- Prev and Next buttons -->
+                <button class="carousel-control prev" onclick="moveCarousel(-1)">&lsaquo;</button>
+                <button class="carousel-control next" onclick="moveCarousel(1)">&rsaquo;</button>
+            </div>
+
+            <!-- Car Information -->
+            <div class="bg-gray-100 rounded-md p-4">
+                <h2 class="text-2xl font-bold mb-4">{{ car.make }} - {{ car.model }}</h2>
+                <p class="mb-2"><strong>Year:</strong> {{ car.year }}</p>
+                <p class="mb-2"><strong>Price:</strong> ${{ car.price }}</p>
+                <p class="mb-2"><strong>Mileage:</strong> {{ car.mileage }} miles</p>
+                <p class="mb-2"><strong>Type:</strong> {{ car.get_car_type_display }}</p>
+                <p class="mb-2"><strong>Fuel Type:</strong> {{ car.get_fuel_type_display }}</p>
+                <p class="mb-2"><strong>Transmission:</strong> {{ car.get_transmission_display }}</p>
+                <p class="mb-2"><strong>Engine Size:</strong> {{ car.engine_size }}L</p>
+                <p class="mb-2"><strong>Fuel:</strong> {{ car.fuel }}</p>
+                <p class="mb-2"><strong>Gearbox:</strong> {{ car.gearbox }}</p>
+
+                <!-- Reserve Button -->
+                {% if user.is_authenticated %}
+                <form action="{% url 'dealership:reserve_car' car.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="mt-4 p-2 bg-blue-500 text-white rounded">Reserve</button>
+                </form>
+                {% else %}
+                <a href="{% url 'authentication:login' %}?next={% url 'dealership:car_detail' car.id %}" class="mt-4 p-2 bg-blue-500 text-white rounded">Reserve</a>
+                {% endif %}
+            </div>
+        </div>
+
+         <!-- Related Cars -->
+         <div class="mt-8">
+            <h3 class="text-xl font-bold mb-4">More cars from {{ car.make }}</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {% for related_car in related_cars %}
+                <div class="bg-white shadow-md rounded p-4">
+                    <a href="{% url 'dealership:car_detail' related_car.id %}">
+                        <img src="{{ related_car.image.url }}" alt="{{ related_car.make }} {{ related_car.model }}" class="w-full h-48 object-cover object-center rounded-md mb-4">
+                        <h4 class="text-lg font-bold">{{ related_car.make }} {{ related_car.model }}</h4>
+                        <p class="text-gray-600">Year: {{ related_car.year }}</p>
+                        <p class="text-gray-600">Price: ${{ related_car.price }}</p>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Custom styles for carousel controls */
+    .carousel-control {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(255, 255, 255, 0.5);
+        color: #333; 
+        font-size: 24px; 
+        padding: 8px 12px; 
+        cursor: pointer;
+        z-index: 2; 
+    }
+
+    .carousel-control.prev {
+        left: 0;
+        border-radius: 0 4px 4px 0; 
+    }
+
+    .carousel-control.next {
+        right: 0;
+        border-radius: 4px 0 0 4px; 
+    }
+</style>
+
+<script>
+    let slideIndex = 1;
+    showSlides(slideIndex);
+
+    function moveCarousel(n) {
+        showSlides(slideIndex += n);
+    }
+
+    function showSlides(n) {
+        let i;
+        let slides = document.getElementsByClassName("carousel-item");
+        if (n > slides.length) {slideIndex = 1}
+        if (n < 1) {slideIndex = slides.length}
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        slides[slideIndex-1].style.display = "block";
+    }
+</script>
+{% endblock %}
